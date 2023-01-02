@@ -8,16 +8,16 @@ services:
       - ./wordpress:/app
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
-
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -35,10 +35,9 @@ services:
     depends_on:
       - mysql
       - composer
-    build: ./php
-    image: wordpress_image
+    image: wordpress:latest
     ports:
-      - "8020:80"
+      - '8020:80'
     restart: always
     environment:
       WORDPRESS_DB_HOST: mysql:3306
